@@ -24,13 +24,19 @@ builds:
     main: ./cmd/main.go
     binary: dygn
 
+# .goreleaser.yaml
 brews:
-  - github:
+  - name: myproject
+    commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
+    folder: Formula
+    homepage: "https://github.com/ttl256/dygn"
+    description: "A CLI tool to produce an IPv6 address with the host portion being a modified EUI-64."
+    license: "MIT"
+    repository:
       owner: ttl256
       name: homebrew-dygn
-    folder: Formula
-    homepage: https://github.com/ttl256/dygn
-    description: A CLI tool to produce an IPv6 address with the host portion being a modified EUI-64.
+      branch: main
+      token: "{{ .Env.GITHUB_PERSONAL_AUTH_TOKEN }}"
 
 archives:
   - format: tar.gz
