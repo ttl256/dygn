@@ -24,9 +24,8 @@ builds:
     main: ./cmd/main.go
     binary: dygn
 
-# .goreleaser.yaml
 brews:
-  - name: myproject
+  - name: dygn
     commit_msg_template: "Brew formula update for {{ .ProjectName }} version {{ .Tag }}"
     folder: Formula
     homepage: "https://github.com/ttl256/dygn"
