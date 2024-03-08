@@ -1,0 +1,34 @@
+package hwaddr_test
+
+import (
+	"encoding/hex"
+	"testing"
+
+	"github.com/ttl256/dygn/internal/hwaddr"
+)
+
+func TestNewEUI(t *testing.T) {
+	inputTests := []struct {
+		input [6]byte
+		want  [8]byte
+	}{
+		{[6]byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
+			[8]byte{0x02, 0x00, 0x00, 0xFF, 0xFE, 0x00, 0x00, 0x00}},
+		{[6]byte{0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},
+			[8]byte{0xFD, 0xFF, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF}},
+		{[6]byte{0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF},
+			[8]byte{0xA8, 0xBB, 0xCC, 0xFF, 0xFE, 0xDD, 0xEE, 0xFF}},
+	}
+
+	t.Run("EUI64 from bytes", func(t *testing.T) {
+		for _, tt := range inputTests {
+			got := hwaddr.EUIFrom6(tt.input)
+			if got != tt.want {
+				t.Errorf("got %v, want %v",
+					hex.EncodeToString(got[:]),
+					hex.EncodeToString(tt.want[:]),
+				)
+			}
+		}
+	})
+}
